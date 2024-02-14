@@ -1,0 +1,133 @@
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="..\public\css\imageHost.css"
+    />
+
+    <title>Image Viewer</title>
+  </head>
+
+  <body>
+    <div class="container header_container">
+      <div class="company_header_background">
+      </div>
+      <a class="company_header" href="/index">F O T O .</a>
+     {{#if logged}}
+      <a class="link sign_in_header imagePost" id="logout-button">Log Out</a>
+      {{else}}
+      <a class="link sign_in_header imagePost" id="login-button" href="/login">Sign In</a>
+      {{/if}}
+      <a href="/postimage">
+        <div class="upload-button-redirect">+</div>
+      </a>
+    </div>
+     {{#if logged}}
+      <script>
+        let ele = document.getElementById('logout-button');
+        if(ele) {
+          ele.onclick = (even) => {
+            fetch ('/users/logout',{
+              method:"POST"
+            })
+            .then((data) => {
+              location.replace('/');
+            });
+          }
+        }
+      </script>
+    {{/if}}
+    <div class="viewpost-container">
+      <div class="post-container">
+        <img src="/{{currentPost.photopath}}" />
+        <div class="created-date"> Posted on {{currentPost.created}} by {{currentPost.username}}</div>
+      </div>
+      <div class="sidebar">
+        <div class="title-box"> <p> {{currentPost.title}} </p>
+        </div>
+        <div class="description-box">
+          <p>{{currentPost.description}}</p>
+        </div>
+        <div class="comments">
+          <div class="messages" id='messages'>
+        {{#each currentPost.comments}}
+          {{> comment this}}
+        {{/each}}
+        </div>
+        <div class="comment-input-container">
+          <input class="comment-input" id="comment-input" placeholder="Post a comment...">
+            <button class="comment-submit" id="comment-submit">></button>
+          </input>
+        </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', (event) => {
+        document.querySelectorAll('span[class=date-posted]').forEach((postedDate) =>{
+          postedDate.textContent = new Date(postedDate.textContent).toLocaleString();
+        });
+      });
+
+      function addMessage(data){
+        let template = document.createElement('template');
+        template.innerHTML = 
+        `<div id="message-${data.commentId}">
+          <strong class="author-text">${data.username}</strong>
+          <span class="date-posted">${new Date().toLocaleString()}</span>
+          <div class="comment-text">${data.comment}</div>
+        </div>`;
+        document.getElementById('messages').lastChild.after(template.content.firstChild);
+      }
+
+      function submitComment() {
+         let commentText = document.getElementById('comment-input').value;
+        let postId = document.location.pathname.match(/\d+/g).map(Number)[0];
+
+        if(!commentText){
+          return;
+        } 
+        
+        let fetchOptions = {
+          method: "POST",
+          headers: {
+            "Content-Type":"Application/json"
+          },
+          body: JSON.stringify({
+            comment:commentText,
+            postId, postId
+          })
+        }
+          fetch('/comments/create', fetchOptions)
+          .then((response) => response.json())
+          .then((data) => {
+            if(data.code == 1){
+              document.getElementById('comment-input').value = '';
+              addMessage(data);
+            }else{
+              addFlashFromFrontEnd(data.message, data.status);
+            }
+          })
+          .catch(err => console.log(err));
+      }
+
+      document.getElementById('comment-input').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+          submitComment();
+        }
+      });
+
+      document.getElementById('comment-submit').onclick = (event) => {
+        submitComment();
+        }
+      
+
+    </script>
+  </body>
+
+</html>

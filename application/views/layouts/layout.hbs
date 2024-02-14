@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{title}}</title>
+    <script defer src="/public/js/frontendjs.js"></script>
+  </head>
+  <body>
+    {{#if (emptyObject messages)}}
+    {{> flashmessage}}
+    {{/if}}
+    {{{body}}}
+  </body>
+</html>

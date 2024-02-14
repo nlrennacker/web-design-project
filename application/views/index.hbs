@@ -1,0 +1,63 @@
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/public/css/imageHost.css"
+    />
+    <script defer src="/public/js/gallery.js"></script>
+    <title>Image Viewer</title>
+  </head>
+
+  <body>
+    <div class="container header_container">
+      <div class="company_header_background">
+      </div>
+      <a class="company_header" href="/index">F O T O .</a>
+      <div class="search-container">
+      <input type="text" class="search-bar" id="search-bar" placeholder="Search...">
+        <button class="search-button" type="submit" id="search-button">></button>
+        </input>
+        </div>
+      {{#if logged}}
+      <a class="link sign_in_header imagePost" id="logout-button">Log Out</a>
+      {{else}}
+      <a class="link sign_in_header imagePost" id="login-button" href="/login">Sign In</a>
+      {{/if}}
+      <a href="/postimage">
+        <div class="upload-button-redirect">+</div>
+      </a>
+      {{#if logged}}
+      <script>
+        let ele = document.getElementById('logout-button');
+        if(ele) {
+          ele.onclick = (even) => {
+            fetch ('/users/logout',{
+              method:"POST"
+            })
+            .then((data) => {
+              location.replace('/');
+            });
+          }
+        }
+      </script>
+    {{/if}}
+    </div>
+    <div class="container body_container_gallery" id="body_container_gallery">
+      {{#each results}}
+          {{> card this}}
+      {{/each}}
+    </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', (event) => {
+        document.getElementsByClassName('imageText upload-date').forEach((postedDate) =>{
+          postedDate.textContent = new Date(postedDate.textContent).toLocaleString();
+        });
+      });
+    </script>
+  </body>
+</html>

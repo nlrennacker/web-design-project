@@ -1,0 +1,113 @@
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" type="text/css" href="..\public\css\form.css" />
+    <script defer src="..\public\js\dataValidation.js"></script>
+    <title>Registration</title>
+  </head>
+
+  <body>
+    <div class="container header_container">
+      <a class="photoLink company_header" href="/index">F O T O .</a>
+    </div>
+    <div class="container body_container registration_container">
+      <div class="container body_container backgroundBlur registration_blur">
+        <div class="container login_container_header">
+          <h1>Create Account</h1>
+        </div>
+        <div class="centerBox registration_centerBox">
+          <form
+            class="registration-form"
+            method="POST"
+            action="/users/register"
+            enctype="application/x-www-form-urlencoded"
+          >
+            <div class="field registration">
+              <div class="field usernameField registration">
+                <input
+                  class="field hoverField"
+                  type="text"
+                  placeholder="USERNAME"
+                  id="username"
+                  name="username"
+                /><br />
+                <a id="usernameError" aria-live="polite"></a>
+              </div>
+              <div class="field emailField registration">
+
+                <input
+                  class="field hoverField"
+                  type="email"
+                  placeholder="EMAIL"
+                  id="email"
+                  minlength="3"
+                  name="email"
+                /><br />
+                <a id="emailError" aria-live="polite"></a>
+              </div>
+              <div class="field passwordField registration">
+                <input
+                  class="field hoverField"
+                  type="password"
+                  placeholder="PASSWORD"
+                  id="password"
+                  name="password"
+                /><br />
+                <a id="passwordError" aria-live="polite"></a>
+              </div>
+              <div class="field passwordConfirm registration">
+                <input
+                  class="field hoverField"
+                  type="password"
+                  placeholder="CONFIRM PASSWORD"
+                  id="confirmPassword"
+                  name="cpassword"
+                /><br />
+                <a id="confirmPasswordError" aria-live="polite"></a>
+              </div>
+            </div>
+            <div class="field registrationCheck">
+              <input
+                class="registrationCheckbox"
+                type="checkbox"
+                id="OverThirteen"
+                value="Thirteen"
+                required
+              />
+              <label class="checkbox_label_padding" for="OverThirteen">
+                I confirm that I am over the age of 13.</label>
+            </div>
+            <div class="field registrationCheck">
+              <input
+                class="registrationCheckbox"
+                type="checkbox"
+                id="TOS_Check"
+                value="Thirteen"
+                required
+              />
+              <label class="checkbox_label_padding" for="TOS_Check">
+                I have read and agree to the
+                <a href="">Terms of Service</a>
+                and
+                <a href="">Privacy Policy.</a></label>
+            </div>
+            <button
+              class="field login_button register_button"
+              type="submit"
+            >></button>
+          </form>
+          <a class="alreadyRegistered" href="">Already Registered?</a>
+          <br />
+        </div>
+      </div>
+    </div>
+  </body>
+
+</html>

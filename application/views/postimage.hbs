@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/public/css/form.css">
+    <script defer src="/public/js/imageLoader.js"></script>
+    <title>Post an Image</title>
+  </head>
+
+  <body>
+    <div class="container header_container">
+      <div class="company_header_background">
+      </div>
+      <a class="link company_header imagePost" href="/index">F O T O .</a>
+     {{#if logged}}
+      <a class="link sign_in_header imagePost" id="logout-button">Log Out</a>
+      {{else}}
+      <a class="link sign_in_header imagePost" id="login-button" href="/login">Sign In</a>
+      {{/if}}
+    </div>
+     {{#if logged}}
+      <script>
+        let ele = document.getElementById('logout-button');
+        if(ele) {
+          ele.onclick = (even) => {
+            fetch ('/users/logout',{
+              method:"POST"
+            })
+            .then((data) => {
+              location.replace('/');
+            });
+          }
+        }
+      </script>
+    {{/if}}
+    <div class="container body_container imagePost_container">
+      <div class="container body_container_header">
+      </div>
+      <div class="centerBox centerBox_impagePost">
+        <form class="postForm" id="postForm" method="POST" enctype="multipart/form-data" action='/posts/createPost'>
+          <input class="field postTitle" type="text" placeholder="Enter your post title..." id="postTitle"  name="title" required />
+          <div class="field imageUpload" id="drop-region">
+            <input type="file" class="imageInput" id="imageInput" name="uploadImage"/>
+            Drag & Drop image or click to ⇫ Upload File
+
+          </div>
+          <div class="image-preview" id="image-preview"></div>
+          <textarea class="field postDescription" type="text" placeholder="Enter a Description (optional)" id="postTitle" name="description"
+            optional></textarea>
+          <div class="submitBox">
+            <div class="field registrationCheck postCheck">
+              <input class="registrationCheckbox" type="checkbox" id="OverThirteen" value="Thirteen" required>
+              <label class="checkbox_label_padding" for="OverThirteen"> I agree to the <a href="">Acceptable Use
+                  Policy.</label>
+            </div>
+            <div class="submitButtonContainer">
+              <a class="buttonTag">POST</a>
+              <button class="field login_button post_button" type="submit">></button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </body>
+
+</html>
